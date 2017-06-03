@@ -1,119 +1,88 @@
-CREATE DATABASE  IF NOT EXISTS `db_mytask` /*!40100 DEFAULT CHARACTER SET utf8 */;
+-- phpMyAdmin SQL Dump
+-- version 4.5.1
+-- http://www.phpmyadmin.net
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 03-06-2017 a las 20:11:36
+-- Versión del servidor: 10.1.10-MariaDB
+-- Versión de PHP: 7.0.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Base de datos: `db_mytask`
+--
+CREATE DATABASE IF NOT EXISTS `db_mytask` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `db_mytask`;
--- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
---
--- Host: localhost    Database: db_mytask
--- ------------------------------------------------------
--- Server version	5.7.18-0ubuntu0.16.04.1
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DELIMITER $$
+--
+-- Procedimientos
+--
+DROP PROCEDURE IF EXISTS `SP_LoginUser`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LoginUser` (IN `_UserName` VARCHAR(50), IN `_UserPassword` VARCHAR(50))  BEGIN
+  SELECT * FROM user
+    WHERE
+    UserName = _UserName AND
+        UserPassword = _UserPassword;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
 
 --
--- Table structure for table `task`
+-- Estructura de tabla para la tabla `task`
 --
 
 DROP TABLE IF EXISTS `task`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `task` (
+CREATE TABLE IF NOT EXISTS `task` (
   `TaskId` int(11) NOT NULL AUTO_INCREMENT,
   `TaskIdFather` int(11) DEFAULT NULL,
   `RegisterUserId` int(11) NOT NULL,
   `ResponsibleUserId` int(11) NOT NULL,
   `TaskTitle` varchar(50) NOT NULL,
   `TaskDescription` text NOT NULL,
+  `TaskType` varchar(10) NOT NULL,
   `TaskStartDate` datetime NOT NULL,
   `TaskEndDate` datetime DEFAULT NULL,
+  `TaskPriorityLevel` int(11) NOT NULL,
   `TaskStatus` int(11) NOT NULL,
   PRIMARY KEY (`TaskId`),
   KEY `fk_task_user_idx` (`RegisterUserId`),
-  KEY `fk_task_user1_idx` (`ResponsibleUserId`),
-  CONSTRAINT `fk_task_user` FOREIGN KEY (`RegisterUserId`) REFERENCES `user` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_task_user1` FOREIGN KEY (`ResponsibleUserId`) REFERENCES `user` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_task_user1_idx` (`ResponsibleUserId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `task`
---
-
-LOCK TABLES `task` WRITE;
-/*!40000 ALTER TABLE `task` DISABLE KEYS */;
-/*!40000 ALTER TABLE `task` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `user`
+-- Estructura de tabla para la tabla `user`
 --
 
 DROP TABLE IF EXISTS `user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user` (
+CREATE TABLE IF NOT EXISTS `user` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `UserName` varchar(50) NOT NULL,
   `UserPassword` varchar(50) NOT NULL,
   `UserStatus` bit(1) NOT NULL,
   PRIMARY KEY (`UserId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user`
+-- Volcado de datos para la tabla `user`
 --
 
-LOCK TABLES `user` WRITE;
-/*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'xjeanxx','1234','');
-/*!40000 ALTER TABLE `user` ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `user` (`UserId`, `UserName`, `UserPassword`, `UserStatus`) VALUES
+(1, 'xjeanxx', '1234', b'1');
 
 --
--- Dumping events for database 'db_mytask'
+-- Restricciones para tablas volcadas
 --
 
 --
--- Dumping routines for database 'db_mytask'
+-- Filtros para la tabla `task`
 --
-/*!50003 DROP PROCEDURE IF EXISTS `SP_LoginUser` */;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8 */ ;
-/*!50003 SET character_set_results = utf8 */ ;
-/*!50003 SET collation_connection  = utf8_general_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `SP_LoginUser`(IN _UserName VARCHAR(50), IN _UserPassword VARCHAR(50))
-BEGIN
-	SELECT * FROM user
-    WHERE
-		UserName = _UserName AND
-        UserPassword = _UserPassword;
-END ;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2017-06-03 12:03:39
+ALTER TABLE `task`
+  ADD CONSTRAINT `fk_task_user` FOREIGN KEY (`RegisterUserId`) REFERENCES `user` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_task_user1` FOREIGN KEY (`ResponsibleUserId`) REFERENCES `user` (`UserId`) ON DELETE NO ACTION ON UPDATE NO ACTION;
