@@ -13,15 +13,20 @@ import javax.swing.JOptionPane;
  *
  * @author jean
  */
-public class Frm_Login extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame {
 
     /**
      * Creates new form Frm_Login
      */
-    public Frm_Login() {
+    P_PlaceHolder P_PlaceHolder;
+    public FrmLogin() {
         initComponents();
+        this.P_PlaceHolder = new P_PlaceHolder();
         this.setLocationRelativeTo(null);
-        this.jtxtUserName.requestFocus();
+        this.jtxtUserName.requestFocus(false);
+        this.P_PlaceHolder.InitPlaceHolder(this.jtxtUserName, "Usuario");
+        this.P_PlaceHolder.InitPlaceHolder(this.jtxtPassword, "Contraseña");
+
     }
 
     /**
@@ -36,13 +41,14 @@ public class Frm_Login extends javax.swing.JFrame {
         jbtnLogin = new javax.swing.JButton();
         jtxtUserName = new javax.swing.JTextField();
         jtxtPassword = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
+        setAutoRequestFocus(false);
         setLocationByPlatform(true);
+        setPreferredSize(new java.awt.Dimension(300, 450));
         setResizable(false);
+        setSize(new java.awt.Dimension(300, 450));
 
         jbtnLogin.setText("Entrar");
         jbtnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -51,52 +57,55 @@ public class Frm_Login extends javax.swing.JFrame {
             }
         });
 
+        jtxtUserName.setToolTipText("Usuario");
+        jtxtUserName.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtUserNameFocusGained(evt);
+            }
+        });
         jtxtUserName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtUserNameActionPerformed(evt);
             }
         });
 
+        jtxtPassword.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jtxtPasswordFocusGained(evt);
+            }
+        });
         jtxtPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtxtPasswordActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Usuario:");
-
-        jLabel2.setText("Contraseña:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbtnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                    .addComponent(jtxtPassword)
-                    .addComponent(jtxtUserName))
-                .addGap(26, 26, 26))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jtxtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jbtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtxtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(169, Short.MAX_VALUE)
+                .addComponent(jtxtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(32, 32, 32)
-                .addComponent(jbtnLogin)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -111,8 +120,8 @@ public class Frm_Login extends javax.swing.JFrame {
         try {
             resp = B_User.LoginUser(E_User);
             if (resp > 0) {
-                Frm_Main frmMain = new Frm_Main();
-                frmMain.setVisible(true);
+                //Frm_Main frmMain = new Frm_Main();
+                //frmMain.setVisible(true);
                 this.setVisible(false);
             }
         } catch (Exception e) {
@@ -128,6 +137,16 @@ public class Frm_Login extends javax.swing.JFrame {
     private void jtxtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtPasswordActionPerformed
         this.jbtnLogin.requestFocus();
     }//GEN-LAST:event_jtxtPasswordActionPerformed
+
+    private void jtxtUserNameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtUserNameFocusGained
+        this.P_PlaceHolder.FinishPlaceHolder(this.jtxtUserName, "Usuario");
+        this.P_PlaceHolder.InitPlaceHolder(jtxtPassword, "Contraseña");
+    }//GEN-LAST:event_jtxtUserNameFocusGained
+
+    private void jtxtPasswordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jtxtPasswordFocusGained
+        this.P_PlaceHolder.InitPlaceHolder(this.jtxtUserName, "Usuario");
+        this.P_PlaceHolder.FinishPlaceHolder(this.jtxtPassword, "Contraseña");
+    }//GEN-LAST:event_jtxtPasswordFocusGained
 
     /**
      * @param args the command line arguments
@@ -146,27 +165,26 @@ public class Frm_Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_Login().setVisible(true);
+                new FrmLogin().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton jbtnLogin;
     private javax.swing.JTextField jtxtPassword;
     private javax.swing.JTextField jtxtUserName;
