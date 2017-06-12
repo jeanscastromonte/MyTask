@@ -7,21 +7,66 @@ package L_Presentation;
 
 import L_Business.B_User;
 import L_Entity.E_User;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.event.FocusEvent;
 import javax.swing.JOptionPane;
 
 /**
  *
  * @author jean
  */
-public class Frm_Login extends javax.swing.JFrame {
+public class FrmLogin extends javax.swing.JFrame {
 
     /**
-     * Creates new form Frm_Login
+     * Creates new form Frm_Login x = 51; y = 275;
      */
-    public Frm_Login() {
-        initComponents();
+    P_PlaceHolder JtxtUserName;
+    P_PlaceHolder JtxtPassword;
+
+    public FrmLogin() {
+        this.initComponents();
+        this.MyInitComponents();
+    }
+
+    private void MyInitComponents() {
         this.setLocationRelativeTo(null);
-        this.jtxtUserName.requestFocus();
+        this.InitJtxtUserName();
+        this.InitJtxtPassword();
+        this.JtxtUserName.addFocusListener(new java.awt.event.FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            }
+        });
+    }
+
+    private void InitJtxtUserName() {
+        this.JtxtUserName = new P_PlaceHolder();
+        this.JtxtUserName.setLocation(50, 270);
+        this.JtxtUserName.setPlaceHolderText("Usuario");
+        this.JtxtUserName.setSize(new Dimension(200, 35));
+        this.JtxtUserName.setPhColor(new Color(72, 117, 210));
+        this.JtxtUserName.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        this.JtxtUserName.setName("jtxtUserName");
+        this.JtxtUserName.setToolTipText("Usuario");
+        this.add(this.JtxtUserName);
+    }
+
+    private void InitJtxtPassword() {
+        this.JtxtPassword = new P_PlaceHolder();
+        this.JtxtPassword.setLocation(50, 310);
+        this.JtxtPassword.setPlaceHolderText("Contraseña");
+        this.JtxtPassword.setSize(new Dimension(200, 35));
+        this.JtxtPassword.setPhColor(new Color(72, 117, 210));
+        this.JtxtPassword.setFont(new Font("SansSerif", Font.PLAIN, 12));
+        this.JtxtPassword.setName("JtxtPassword");
+        this.JtxtPassword.setToolTipText("Contraseña");
+        this.add(this.JtxtPassword);
     }
 
     /**
@@ -34,15 +79,14 @@ public class Frm_Login extends javax.swing.JFrame {
     private void initComponents() {
 
         jbtnLogin = new javax.swing.JButton();
-        jtxtUserName = new javax.swing.JTextField();
-        jtxtPassword = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
+        setAutoRequestFocus(false);
         setLocationByPlatform(true);
+        setPreferredSize(new java.awt.Dimension(300, 450));
         setResizable(false);
+        setSize(new java.awt.Dimension(300, 450));
 
         jbtnLogin.setText("Entrar");
         jbtnLogin.addActionListener(new java.awt.event.ActionListener() {
@@ -51,52 +95,21 @@ public class Frm_Login extends javax.swing.JFrame {
             }
         });
 
-        jtxtUserName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtUserNameActionPerformed(evt);
-            }
-        });
-
-        jtxtPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtxtPasswordActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("Usuario:");
-
-        jLabel2.setText("Contraseña:");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jbtnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                    .addComponent(jtxtPassword)
-                    .addComponent(jtxtUserName))
-                .addGap(26, 26, 26))
+                .addGap(63, 63, 63)
+                .addComponent(jbtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(80, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jtxtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtxtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(32, 32, 32)
-                .addComponent(jbtnLogin)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(265, Short.MAX_VALUE)
+                .addComponent(jbtnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46))
         );
 
         pack();
@@ -106,12 +119,12 @@ public class Frm_Login extends javax.swing.JFrame {
         int resp = 0;
         B_User B_User = new B_User();
         E_User E_User = new E_User();
-        E_User.setUserName(this.jtxtUserName.getText());
-        E_User.setUserPassword(this.jtxtPassword.getText());
+        E_User.setUserName(this.JtxtUserName.getText());
+        E_User.setUserPassword(this.JtxtPassword.getText());
         try {
             resp = B_User.LoginUser(E_User);
             if (resp > 0) {
-                Frm_Main frmMain = new Frm_Main();
+                FrmMain frmMain = new FrmMain();
                 frmMain.setVisible(true);
                 this.setVisible(false);
             }
@@ -120,14 +133,6 @@ public class Frm_Login extends javax.swing.JFrame {
             System.out.println(resp);
         }
     }//GEN-LAST:event_jbtnLoginActionPerformed
-
-    private void jtxtUserNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtUserNameActionPerformed
-        this.jtxtPassword.requestFocus();
-    }//GEN-LAST:event_jtxtUserNameActionPerformed
-
-    private void jtxtPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtxtPasswordActionPerformed
-        this.jbtnLogin.requestFocus();
-    }//GEN-LAST:event_jtxtPasswordActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,29 +151,26 @@ public class Frm_Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Frm_Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FrmLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Frm_Login().setVisible(true);
+                new FrmLogin().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton jbtnLogin;
-    private javax.swing.JTextField jtxtPassword;
-    private javax.swing.JTextField jtxtUserName;
     // End of variables declaration//GEN-END:variables
 }
