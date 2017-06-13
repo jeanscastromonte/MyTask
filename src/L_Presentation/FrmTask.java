@@ -4,17 +4,16 @@
  * and open the template in the editor.
  */
 package L_Presentation;
-
 /**
  *
  * @author jean
  */
-public class NewJInternalFrame extends javax.swing.JInternalFrame {
+public class FrmTask extends javax.swing.JInternalFrame {
 
     /**
      * Creates new form NewJInternalFrame
      */
-    public NewJInternalFrame() {
+    public FrmTask() {
         initComponents();
     }
 

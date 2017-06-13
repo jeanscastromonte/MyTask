@@ -5,6 +5,12 @@
  */
 package L_Presentation;
 
+import java.beans.PropertyVetoException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -19,7 +25,7 @@ public class FrmMain extends javax.swing.JFrame {
      */
     public FrmMain() {
         initComponents();
-        this.setExtendedState(this.MAXIMIZED_BOTH);
+        this.setExtendedState(MAXIMIZED_BOTH);
         this.InitJTreetMenu();
     }
 
@@ -27,11 +33,35 @@ public class FrmMain extends javax.swing.JFrame {
         DefaultMutableTreeNode raiz = new DefaultMutableTreeNode("Raiz");
         DefaultMutableTreeNode option1 = new DefaultMutableTreeNode("Option1");
         DefaultMutableTreeNode option2 = new DefaultMutableTreeNode();
-        option2.setUserObject("Opcion2");
+        option2.setUserObject("Tarea");
         raiz.add(option1);
         option1.add(option2);
         DefaultTreeModel modelmenu = new DefaultTreeModel(raiz);
         this.jTree1.setModel(modelmenu);
+        
+        this.jTree1.addTreeSelectionListener(new TreeSelectionListener(){
+            @Override
+            public void valueChanged(TreeSelectionEvent e) {
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+                               jTree1.getLastSelectedPathComponent();
+
+                if (node == null) return;
+                if(node.getUserObject().equals("Tarea")){
+                    JOptionPane.showMessageDialog(null, "Problem writing to backup directory:",
+                    "Backup problem",
+                    JOptionPane.INFORMATION_MESSAGE);
+                    FrmTask FrmTask = new FrmTask();
+                    jDesktopPane1.add(FrmTask);
+                    try {
+                        FrmTask.setMaximum(true);
+                    } catch (PropertyVetoException ex) {
+                        Logger.getLogger(FrmMain.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    FrmTask.show();
+                    
+                }                
+            }            
+        });
 
     }
 
@@ -47,6 +77,7 @@ public class FrmMain extends javax.swing.JFrame {
         jSplitPane1 = new javax.swing.JSplitPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -59,17 +90,20 @@ public class FrmMain extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTree1);
 
         jSplitPane1.setLeftComponent(jScrollPane1);
-        jSplitPane1.setRightComponent(jDesktopPane1);
+
+        jTabbedPane1.addTab("tab1", jDesktopPane1);
+
+        jSplitPane1.setRightComponent(jTabbedPane1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 446, Short.MAX_VALUE)
+            .addComponent(jSplitPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 492, Short.MAX_VALUE)
         );
 
         pack();
@@ -114,6 +148,7 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSplitPane jSplitPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables
 }
